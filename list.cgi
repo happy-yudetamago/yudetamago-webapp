@@ -27,17 +27,8 @@ require 'singleton'
 require 'erb'
 require 'forwardable'
 require 'cgi'
-require 'csv'
-require 'base64'
-require 'stringio'
 require 'ncmb'
 require './config'
-
-# config
-
-DEFAULT_IDS = <<EOF
-EOF
-
 
 class ERBToString
   def initialize(script, binding)
@@ -67,6 +58,7 @@ Content-Type: text/html; charset=utf-8
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Happy Yudetamago Web.</title>
+<link href="css/bootstrap.min.css" rel="stylesheet">
 <style type="text/css" media="screen,print">
 html{
 margin:0;
@@ -152,6 +144,17 @@ class ListView < ViewBase
     o && o[:existing]
   end
 
+  def yudetamago_image(id)
+    case ncmb_existing(id)
+    when '1'
+      return '<img src="yudetamago_existing.svg" />'
+    when '0'
+      return '<img src="yudetamago_not_existing.svg" />'
+    else
+      return ''
+    end
+  end
+
   SCRIPT = <<SOURCE_EOF
 <%= header %>
 <body>
@@ -160,20 +163,40 @@ class ListView < ViewBase
 
 <h2>List</h2>
 
-<table>
+<table class="table">
 <tr>
-  <th>ID</th><th>Name</th><th>Status</th>
+  <th>Status</th><th>Name</th><th>ID</th>
 </tr>
 <% @ids.split(/[\r\n]/).each do |id| id.chomp! %>
 <tr>
-  <td>[<%= id %>]</td>
+  <td><%= yudetamago_image(id) %></td>
   <td><%= ncmb_label(id) %></td>
-  <td><%= ncmb_existing(id) %></td>
+  <td>[<%= id %>]</td>
 </tr>
 <% end %>
 </table>
 
-<h2>IDs</h2>
+<p>
+@2017 yoshitake. All rights reserved.
+</p>
+</body>
+<%= footer %>
+SOURCE_EOF
+end
+
+class RegistView < ViewBase
+  def initialize(ids)
+    super(SCRIPT)
+    @ids = ids
+  end
+
+  SCRIPT = <<SOURCE_EOF
+<%= header %>
+<body>
+
+<h1>Happy Yudetamago.</h1>
+
+<h2>Regist IDs</h2>
 
 <form action="list.cgi" method="get">
 
@@ -199,21 +222,17 @@ class ListMain
 
   def main
     @cgi = CGI.new
-    ids  = get_param('ids', DEFAULT_IDS)
+    ids  = @cgi.params['ids'][0]
 
-    NCMB.initialize(:application_key => APPLICATION_KEY,
-                    :client_key => CLIENT_KEY)
-    ts = NCMB::DataStore.new('ToggleStocker')
-    ncmb_objects = ts.get
-    puts ListView.new(ids, ncmb_objects)
-  end
-
-  private
-  def get_param(label, default)
-    v = @cgi.params[label][0]
-    v ||= default
-    v = default if v.empty?
-    v.chomp
+    if ids
+      NCMB.initialize(:application_key => APPLICATION_KEY,
+                      :client_key => CLIENT_KEY)
+      ts = NCMB::DataStore.new('ToggleStocker')
+      ncmb_objects = ts.get
+      puts ListView.new(ids, ncmb_objects)
+    else
+      puts RegistView.new(ids)
+    end
   end
 end
 
