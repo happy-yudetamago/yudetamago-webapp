@@ -26,35 +26,17 @@
 require './bootstrap'
 require 'cgi'
 require 'ncmb'
-require './view_base'
 require './config'
+require './view_base'
+require './ncmb_helper'
 
 class ListView < ViewBase
+  include NcmbHelper
+
   def initialize(ids, ncmb_objects)
     super(SCRIPT)
     @ids = ids
     @ncmb_objects = ncmb_objects
-  end
-
-  def ncmb_label(id)
-    o = @ncmb_objects.find { |o| o[:objectId] == id }
-    o && o[:label]
-  end
-
-  def ncmb_existing(id)
-    o = @ncmb_objects.find { |o| o[:objectId] == id }
-    o && o[:existing]
-  end
-
-  def yudetamago_image(id)
-    case ncmb_existing(id)
-    when '1'
-      return '<img src="yudetamago_existing.svg" />'
-    when '0'
-      return '<img src="yudetamago_not_existing.svg" />'
-    else
-      return ''
-    end
   end
 
   SCRIPT = <<SOURCE_EOF
@@ -71,12 +53,14 @@ class ListView < ViewBase
 </tr>
 <% @ids.split(/[\r\n]/).each do |id| id.chomp! %>
 <tr>
-  <td><%= yudetamago_image(id) %></td>
-  <td><%= ncmb_label(id) %></td>
-  <td><button type="button" class="btn btn-default">変更</button></td>
+  <td><%= yudetamago_image(@ncmb_objects, id) %></td>
+  <td><%= ncmb_label(@ncmb_objects, id) %></td>
+  <td><a class="btn btn-default" href="detail.cgi?<%= create_get_args(id, @ids) %>">変更</a></td>
 </tr>
 <% end %>
 </table>
+
+<hr />
 
 <p>
 @2017 yoshitake. All rights reserved.

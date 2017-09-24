@@ -1,6 +1,6 @@
 #!/bin/env ruby
 # -*- coding: utf-8 -*-
-# File::     index.cgi
+# File::     ncmb_helper.rb
 # LastEdit:: yoshitake 24-Sep-2017
 #
 # Copyright 2017 yoshitake
@@ -23,55 +23,38 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 # THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
-require 'cgi'
-require './config'
-require './view_base'
-
-class IndexView < ViewBase
-  def initialize(ids)
-    super(SCRIPT)
-    @ids = ids
+module NcmbHelper
+  def find_ncmb_object(ncmb_objects, id)
+    return ncmb_objects.find { |o| o[:objectId] == id }
   end
 
-  SCRIPT = <<SOURCE_EOF
-<%= header %>
-<body>
+  def ncmb_label(ncmb_objects, id)
+    o = find_ncmb_object(ncmb_objects, id)
+    o && o[:label]
+  end
 
-<h1><img src="yudetamago_logo.svg" /></h1>
+  def ncmb_existing(ncmb_objects, id)
+    o = find_ncmb_object(ncmb_objects, id)
+    o && o[:existing]
+  end
 
-<h2>Regist IDs</h2>
+  def yudetamago_image(ncmb_objects, id)
+    case ncmb_existing(ncmb_objects, id)
+    when '1'
+      return '<img id="status" src="yudetamago_existing.svg" />'
+    when '0'
+      return '<img id="status" src="yudetamago_not_existing.svg" />'
+    else
+      return ''
+    end
+  end
 
-<form action="list.cgi" method="get">
-
-<textarea name="ids" rows="10" cols="60"><%= @ids %></textarea>
-
-<p>
-<input type="submit" />
-</p>
-</form>
-
-<hr />
-
-<p>
-@2017 yoshitake. All rights reserved.
-</p>
-</body>
-<%= footer %>
-SOURCE_EOF
-end
-
-class IndexMain
-  include Singleton
-
-  def main
-    @cgi = CGI.new
-    ids  = @cgi.params['ids'][0]
-    puts IndexView.new(ids)
+  def create_get_args(id, ids)
+    return unless id
+    return unless ids
+    "id=#{URI.escape(id)}&ids=#{URI.escape(ids)}"
   end
 end
-
-IndexMain.instance.main
 
 # Log
 # 24-Sep-2017 yoshitake Created.
