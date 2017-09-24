@@ -1,7 +1,7 @@
 #!/bin/env ruby
 # -*- coding: utf-8 -*-
-# File::     list.cgi
-# LastEdit:: yoshitake 21-Sep-2017
+# File::     index.cgi
+# LastEdit:: yoshitake 24-Sep-2017
 #
 # Copyright 2017 yoshitake
 #
@@ -23,37 +23,15 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 # THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+
 require 'cgi'
-require 'ncmb'
 require './view_base'
 require './config'
 
-class ListView < ViewBase
-  def initialize(ids, ncmb_objects)
+class IndexView < ViewBase
+  def initialize(ids)
     super(SCRIPT)
     @ids = ids
-    @ncmb_objects = ncmb_objects
-  end
-
-  def ncmb_label(id)
-    o = @ncmb_objects.find { |o| o[:objectId] == id }
-    o && o[:label]
-  end
-
-  def ncmb_existing(id)
-    o = @ncmb_objects.find { |o| o[:objectId] == id }
-    o && o[:existing]
-  end
-
-  def yudetamago_image(id)
-    case ncmb_existing(id)
-    when '1'
-      return '<img src="yudetamago_existing.svg" />'
-    when '0'
-      return '<img src="yudetamago_not_existing.svg" />'
-    else
-      return ''
-    end
   end
 
   SCRIPT = <<SOURCE_EOF
@@ -62,20 +40,16 @@ class ListView < ViewBase
 
 <h1><img src="yudetamago_logo.svg" /></h1>
 
-<table class="table table-responsive table-striped">
-<tr>
-  <th>状態</th>
-  <th>名前</th>
-  <th>変更</th>
-</tr>
-<% @ids.split(/[\r\n]/).each do |id| id.chomp! %>
-<tr>
-  <td><%= yudetamago_image(id) %></td>
-  <td><%= ncmb_label(id) %></td>
-  <td><button type="button" class="btn btn-default">変更</button></td>
-</tr>
-<% end %>
-</table>
+<h2>Regist IDs</h2>
+
+<form action="list.cgi" method="get">
+
+<textarea name="ids" rows="10" cols="60"><%= @ids %></textarea>
+
+<p>
+<input type="submit" />
+</p>
+</form>
 
 <p>
 @2017 yoshitake. All rights reserved.
@@ -85,23 +59,17 @@ class ListView < ViewBase
 SOURCE_EOF
 end
 
-class ListMain
+class IndexMain
   include Singleton
 
   def main
     @cgi = CGI.new
     ids  = @cgi.params['ids'][0]
-    ids  = "" unless ids
-
-    NCMB.initialize(:application_key => APPLICATION_KEY,
-                    :client_key => CLIENT_KEY)
-    ts = NCMB::DataStore.new('ToggleStocker')
-    ncmb_objects = ts.get
-    puts ListView.new(ids, ncmb_objects)
+    puts IndexView.new(ids)
   end
 end
 
-ListMain.instance.main
+IndexMain.instance.main
 
 # Log
-# 21-Sep-2017 yoshitake Created.
+# 24-Sep-2017 yoshitake Created.
