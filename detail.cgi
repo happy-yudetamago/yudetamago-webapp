@@ -41,7 +41,7 @@ class DetailView < ViewBase
     @ncmb_objects = ncmb_objects
   end
 
-  def select_status_checked(ncmb_objects, id, status)
+  def existing_checked(ncmb_objects, id, status)
     if ncmb_existing(ncmb_objects, id) == status
       return "checked"
     else
@@ -49,7 +49,7 @@ class DetailView < ViewBase
     end
   end
 
-  def select_status_active(ncmb_objects, id, status)
+  def existing_active(ncmb_objects, id, status)
     if ncmb_existing(ncmb_objects, id) == status
       return "active"
     else
@@ -72,7 +72,7 @@ class DetailView < ViewBase
 <%= yudetamago_image(@ncmb_objects, @id) %>
 <script>
 $(function () {
-  $('input[name="select_status"]:radio').change(function() {
+  $('input[name="existing"]:radio').change(function() {
     if ( $(this).val() == "1" ) {
       $("#status").attr("src", "yudetamago_existing.svg");
     } else {
@@ -83,17 +83,17 @@ $(function () {
 </script>
 
 <div class="btn-group" data-toggle="buttons">
-  <label class="btn btn-warning <%= select_status_active(@ncmb_objects, @id, "1") %>">
-    <input type="radio" name="select_status" autocomplete="off" value="1" <%= select_status_checked(@ncmb_objects, @id, "1") %>>on</input>
+  <label class="btn btn-warning <%= existing_active(@ncmb_objects, @id, "1") %>">
+    <input type="radio" name="existing" autocomplete="off" value="1" <%= existing_checked(@ncmb_objects, @id, "1") %>>on</input>
   </label>
-  <label class="btn btn-warning <%= select_status_active(@ncmb_objects, @id, "0") %>">
-    <input type="radio" name="select_status" autocomplete="off" value="0" <%= select_status_checked(@ncmb_objects, @id, "0") %>>off</input>
+  <label class="btn btn-warning <%= existing_active(@ncmb_objects, @id, "0") %>">
+    <input type="radio" name="existing" autocomplete="off" value="0" <%= existing_checked(@ncmb_objects, @id, "0") %>>off</input>
   </label>
 </div>
 
 <h2>名前</h2>
 
-<textarea name="name" rows="1" cols="20"><%= ncmb_label(@ncmb_objects, @id) %></textarea>
+<textarea name="label" rows="1" cols="20"><%= ncmb_label(@ncmb_objects, @id) %></textarea>
 
 <hr />
 
@@ -117,12 +117,12 @@ class DetailMain
 
   def main
     @cgi = CGI.new
-    method        = @cgi.params['method'][0]
-    select_status = @cgi.params['select_status'][0]
-    name          = @cgi.params['name'][0]
-    id            = @cgi.params['id'][0]
-    ids           = @cgi.params['ids'][0]
-    ids           = "" unless ids
+    method   = @cgi.params['method'][0]
+    existing = @cgi.params['existing'][0]
+    label    = @cgi.params['label'][0]
+    id       = @cgi.params['id'][0]
+    ids      = @cgi.params['ids'][0]
+    ids      = "" unless ids
 
     NCMB.initialize(:application_key => APPLICATION_KEY,
                     :client_key => CLIENT_KEY)
@@ -131,8 +131,8 @@ class DetailMain
     if method == "update"
       o = find_ncmb_object(ncmb_objects, id)
       if o
-        o.set('existing', select_status)
-        o.set('label',    name)
+        o.set('existing', existing)
+        o.set('label',    label)
         o.update
         ncmb_objects = ts.get
       end
