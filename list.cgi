@@ -159,14 +159,9 @@ class ListView < ViewBase
 <%= header %>
 <body>
 
-<h1>Happy Yudetamago.</h1>
-
-<h2>List</h2>
+<h1><img src="yudetamago_logo.svg" /></h1>
 
 <table class="table">
-<tr>
-  <th>Status</th><th>Name</th><th>ID</th>
-</tr>
 <% @ids.split(/[\r\n]/).each do |id| id.chomp! %>
 <tr>
   <td><%= yudetamago_image(id) %></td>
@@ -194,15 +189,13 @@ class RegistView < ViewBase
 <%= header %>
 <body>
 
-<h1>Happy Yudetamago.</h1>
+<h1><img src="yudetamago_logo.svg" /></h1>
 
 <h2>Regist IDs</h2>
 
 <form action="list.cgi" method="get">
 
-<textarea name="ids" rows="10" cols="60">
-<%= @ids %>
-</textarea>
+<textarea name="ids" rows="10" cols="60"><%= @ids %></textarea>
 
 <p>
 <input type="submit" />
