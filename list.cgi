@@ -63,7 +63,7 @@ class ListView < ViewBase
 <hr />
 
 <p>
-@2017 yoshitake. All rights reserved.
+@2017 Happy Yudetamago. All rights reserved.
 </p>
 </body>
 <%= footer %>

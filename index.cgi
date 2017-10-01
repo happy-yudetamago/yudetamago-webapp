@@ -47,14 +47,14 @@ class IndexView < ViewBase
 <textarea name="ids" rows="10" cols="60"><%= @ids %></textarea>
 
 <p>
-<input type="submit" />
+<input type="submit" class="btn btn-default" />
 </p>
 </form>
 
 <hr />
 
 <p>
-@2017 yoshitake. All rights reserved.
+@2017 Happy Yudetamago. All rights reserved.
 </p>
 </body>
 <%= footer %>
