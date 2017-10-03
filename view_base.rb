@@ -75,7 +75,7 @@ line-height:1.5;
 h1{
 margin:2;
 padding:0;
-background-color:#fff;
+background-color:#f90;
 position:relative;
 font-weight:bold;
 border-bottom:double 2px;
@@ -85,6 +85,7 @@ h2{
 margin:2;
 padding:0;
 background-color:#f90;
+color:#fff;
 position:relative;
 font-weight:bold;
 border-top:dotted 1px;
