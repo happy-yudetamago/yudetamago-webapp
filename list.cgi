@@ -52,10 +52,10 @@ class ListView < ViewBase
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" href="index.cgi?<%= create_get_args(@id, @ids) %>">Home</a>
+        <a class="nav-link" href="index.cgi?<%= create_get_args("", @ids) %>">Home</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="list.cgi?<%= create_get_args(@id, @ids) %>">List</a>
+        <a class="nav-link" href="list.cgi?<%= create_get_args("", @ids) %>">List</a>
       </li>
     </ul>
   </div>
