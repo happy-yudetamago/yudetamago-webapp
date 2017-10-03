@@ -45,6 +45,22 @@ class ListView < ViewBase
 
 <h1><img src="yudetamago_logo.svg" /></h1>
 
+<nav class="navbar navbar-toggleable-md navbar-dark bg-dark">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="index.cgi?<%= create_get_args(@id, @ids) %>">Home</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="list.cgi?<%= create_get_args(@id, @ids) %>">List</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
 <table class="table table-responsive table-striped">
 <tr>
   <th>状態</th>

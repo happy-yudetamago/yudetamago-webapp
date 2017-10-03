@@ -63,11 +63,26 @@ class DetailView < ViewBase
 
 <h1><img src="yudetamago_logo.svg" /></h1>
 
+<nav class="navbar navbar-toggleable-md navbar-dark bg-dark">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="index.cgi?<%= create_get_args(@id, @ids) %>">Home</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="list.cgi?<%= create_get_args(@id, @ids) %>">List</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
 <form method="post" action="detail.cgi?<%= create_get_args(@id, @ids) %>">
 <input type="hidden" name="method" value="update" />
 <input type="hidden" name="id" value="<%= @id %>" />
 <input type="hidden" name="ids" value="<%= @ids %>" />
-<h2>状態</h2>
 
 <%= yudetamago_image(@ncmb_objects, @id) %>
 <script>
@@ -91,9 +106,7 @@ $(function () {
   </label>
 </div>
 
-<h2>名前</h2>
-
-<textarea name="label" rows="1" cols="20"><%= ncmb_label(@ncmb_objects, @id) %></textarea>
+<textarea name="label" class="form-control" rows="1"><%= ncmb_label(@ncmb_objects, @id) %></textarea>
 
 <hr />
 

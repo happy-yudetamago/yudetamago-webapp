@@ -73,25 +73,21 @@ line-height:1.5;
 }
 
 h1{
-margin:2;
+margin:0;
 padding:0;
 background-color:#f90;
 position:relative;
 font-weight:bold;
-border-bottom:double 2px;
 }
 
 h2{
-margin:2;
+margin:0;
 padding:0;
-background-color:#f90;
-color:#fff;
+background-color:#343a40;
+color:white;
 position:relative;
 font-weight:bold;
-border-top:dotted 1px;
-border-bottom:dotted 1px;
 }
-
 
 p{
 margin:0;
@@ -106,17 +102,9 @@ word-wrap:break-word;
 border:solid 1px;
 }
 
-button, input{
-line-height:normal;
-}
-
-textarea{
-overflow:auto;
-vertical-align:top;
-}
-
 </style>
 </head>
+
 EOF
   end
 

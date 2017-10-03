@@ -40,11 +40,11 @@ class IndexView < ViewBase
 
 <h1><img src="yudetamago_logo.svg" /></h1>
 
-<h2>Regist IDs</h2>
+<h2>Happy Yudetamago ID</h2>
 
 <form action="list.cgi" method="get">
 
-<textarea name="ids" rows="10" cols="60"><%= @ids %></textarea>
+<textarea name="ids" class="form-control" rows="10"><%= @ids %></textarea>
 
 <p>
 <input type="submit" class="btn btn-default" />
