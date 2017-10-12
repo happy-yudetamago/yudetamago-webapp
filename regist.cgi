@@ -24,11 +24,17 @@
 # THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
+require './bootstrap'
+require 'uri'
 require 'cgi'
+require 'ncmb'
 require './config'
 require './view_base'
+require './ncmb_helper'
 
 class IndexView < ViewBase
+  include NcmbHelper
+
   def initialize(ids)
     super(SCRIPT)
     @ids = ids
@@ -40,7 +46,25 @@ class IndexView < ViewBase
 
 <h1><img src="yudetamago_logo.svg" /></h1>
 
-<h2>Happy Yudetamago ID</h2>
+<nav class="navbar navbar-toggleable-md navbar-dark bg-dark">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="#">Regist Happy Yudetamago ID</a>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="index.html">Home</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="regist.cgi?<%= create_get_args("", @ids) %>">Regist Happy Yudetamago ID</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="list.cgi?<%= create_get_args(@id, @ids) %>">List</a>
+      </li>
+    </ul>
+  </div>
+</nav>
 
 <form action="list.cgi" method="get">
 
