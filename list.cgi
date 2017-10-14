@@ -43,7 +43,7 @@ class ListView < ViewBase
 <%= header %>
 <body>
 
-<h1><img src="yudetamago_logo.svg" /></h1>
+<h1><img src="img/yudetamago_logo.svg" /></h1>
 
 <nav class="navbar navbar-toggleable-md navbar-dark bg-dark">
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

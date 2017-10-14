@@ -41,9 +41,9 @@ module NcmbHelper
   def yudetamago_image(ncmb_objects, id)
     case ncmb_existing(ncmb_objects, id)
     when '1'
-      return '<img id="status" src="yudetamago_existing.svg" />'
+      return '<img id="status" src="img/yudetamago_existing.svg" />'
     when '0'
-      return '<img id="status" src="yudetamago_not_existing.svg" />'
+      return '<img id="status" src="img/yudetamago_not_existing.svg" />'
     else
       return ''
     end
