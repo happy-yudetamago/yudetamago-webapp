@@ -68,12 +68,34 @@ class ListView < ViewBase
 <table class="table table-responsive table-striped">
 <tr>
   <th>状態</th>
+  <th></th>
   <th>名前</th>
   <th>変更</th>
 </tr>
 <% @ids.split(/[\r\n]/).each do |id| id.chomp! %>
 <tr>
   <td><%= yudetamago_image(@ncmb_objects, id) %></td>
+  <script>
+  $(function () {
+    $('input[name="existing_<%= id %>"]:radio').change(function() {
+      if ( $(this).val() == "1" ) {
+        $("#status_<%= id %>").attr("src", "img/yudetamago_existing.svg");
+      } else {
+        $("#status_<%= id %>").attr("src", "img/yudetamago_not_existing.svg");
+      }
+    });
+  });
+  </script>
+  <td>
+    <div class="btn-group" data-toggle="buttons">
+      <label class="btn btn-warning <%= existing_active(@ncmb_objects, id, "1") %>">
+        <input type="radio" name="existing_<%= id %>" autocomplete="off" value="1" <%= existing_checked(@ncmb_objects, id, "1") %>>on</input>
+      </label>
+      <label class="btn btn-warning <%= existing_active(@ncmb_objects, id, "0") %>">
+        <input type="radio" name="existing_<%= id %>" autocomplete="off" value="0" <%= existing_checked(@ncmb_objects, id, "0") %>>off</input>
+      </label>
+    </div>
+  </td>
   <td><%= ncmb_label(@ncmb_objects, id) %></td>
   <td><a class="btn btn-default" href="detail.cgi?<%= create_get_args(id, @ids) %>">変更</a></td>
 </tr>

@@ -41,22 +41,6 @@ class DetailView < ViewBase
     @ncmb_objects = ncmb_objects
   end
 
-  def existing_checked(ncmb_objects, id, status)
-    if ncmb_existing(ncmb_objects, id) == status
-      return "checked"
-    else
-      return
-    end
-  end
-
-  def existing_active(ncmb_objects, id, status)
-    if ncmb_existing(ncmb_objects, id) == status
-      return "active"
-    else
-      return
-    end
-  end
-
   SCRIPT = <<SOURCE_EOF
 <%= header %>
 <body>
@@ -91,11 +75,11 @@ class DetailView < ViewBase
 <%= yudetamago_image(@ncmb_objects, @id) %>
 <script>
 $(function () {
-  $('input[name="existing"]:radio').change(function() {
+  $('input[name="existing_<%= @id %>"]:radio').change(function() {
     if ( $(this).val() == "1" ) {
-      $("#status").attr("src", "img/yudetamago_existing.svg");
+      $("#status_<%= @id %>").attr("src", "img/yudetamago_existing.svg");
     } else {
-      $("#status").attr("src", "img/yudetamago_not_existing.svg");
+      $("#status_<%= @id %>").attr("src", "img/yudetamago_not_existing.svg");
     }
   });
 });
@@ -103,10 +87,10 @@ $(function () {
 
 <div class="btn-group" data-toggle="buttons">
   <label class="btn btn-warning <%= existing_active(@ncmb_objects, @id, "1") %>">
-    <input type="radio" name="existing" autocomplete="off" value="1" <%= existing_checked(@ncmb_objects, @id, "1") %>>on</input>
+    <input type="radio" name="existing_<%= @id %>" autocomplete="off" value="1" <%= existing_checked(@ncmb_objects, @id, "1") %>>on</input>
   </label>
   <label class="btn btn-warning <%= existing_active(@ncmb_objects, @id, "0") %>">
-    <input type="radio" name="existing" autocomplete="off" value="0" <%= existing_checked(@ncmb_objects, @id, "0") %>>off</input>
+    <input type="radio" name="existing_<%= @id %>" autocomplete="off" value="0" <%= existing_checked(@ncmb_objects, @id, "0") %>>off</input>
   </label>
 </div>
 

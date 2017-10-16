@@ -41,9 +41,9 @@ module NcmbHelper
   def yudetamago_image(ncmb_objects, id)
     case ncmb_existing(ncmb_objects, id)
     when '1'
-      return '<img id="status" src="img/yudetamago_existing.svg" />'
+      return "<img id=\"status_#{id}\" src=\"img/yudetamago_existing.svg\" />"
     when '0'
-      return '<img id="status" src="img/yudetamago_not_existing.svg" />'
+      return "<img id=\"status_#{id}\" src=\"img/yudetamago_not_existing.svg\" />"
     else
       return ''
     end
@@ -53,6 +53,22 @@ module NcmbHelper
     return unless id
     return unless ids
     "id=#{URI.escape(id)}&ids=#{URI.escape(ids)}"
+  end
+
+  def existing_checked(ncmb_objects, id, status)
+    if ncmb_existing(ncmb_objects, id) == status
+      return "checked"
+    else
+      return
+    end
+  end
+
+  def existing_active(ncmb_objects, id, status)
+    if ncmb_existing(ncmb_objects, id) == status
+      return "active"
+    else
+      return
+    end
   end
 end
 
