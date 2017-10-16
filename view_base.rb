@@ -69,7 +69,7 @@ padding:0;
 body{
 color:#333333;
 background-color:#fff;
-font-size:81.25%;
+font-size:calc(112.5% + 4 * (100vw - 600px) / 400);
 font-family:'Hiragino Maru Gothic Pro','Hiragino Kaku Gothic Pro',Meiryo,arial,sans-serif;
 line-height:1.5;
 }
@@ -83,11 +83,15 @@ font-weight:bold;
 }
 
 h2{
-margin:0;
-padding:0;
+margin-top:    10px;
+margin-bottom: 10px;
+margin-left:    0;
+margin-right:   0;
+padding:       10px;
 background-color:#343a40;
 color:white;
 position:relative;
+font-size:calc(150% + 4 * (100vw - 600px) / 400);
 font-weight:bold;
 }
 
