@@ -62,6 +62,9 @@ class IndexView < ViewBase
       <li class="nav-item active">
         <a class="nav-link" href="list.cgi?<%= create_get_args(@id, @ids) %>">List</a>
       </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="privacy_policy.html">Privacy Policy</a>
+      </li>
     </ul>
   </div>
 </nav>
